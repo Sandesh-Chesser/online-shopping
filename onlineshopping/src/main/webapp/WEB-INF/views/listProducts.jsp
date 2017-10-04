@@ -1,4 +1,4 @@
-<div class="container">
+<div id="container" class="container">
 	<div class="row">
 		<div class="col-md-3">
 			<%@ include file="./fragments/sidebar.jsp" %>
@@ -32,11 +32,12 @@
 					<table id="productListTable" class="table table-bordered table-striped">
 						<thead>
 							<tr>
+								<th></th>
 								<th>Name</th>
 								<th>Brand</th>
 								<th>Unit Price</th>
 								<th>Quantity</th>
-								<th>Action</th>
+								<th></th>
 							</tr>
 						</thead>
 					</table>

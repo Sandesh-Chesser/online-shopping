@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sandesh.onlineshopping.exception.CategoryNotFoundException;
+import com.sandesh.onlineshopping.exception.ProductNotFoundException;
 import com.sandesh.shoppingbackend.dao.CategoryDAO;
+import com.sandesh.shoppingbackend.dao.ProductDAO;
 import com.sandesh.shoppingbackend.dto.Category;
+import com.sandesh.shoppingbackend.dto.Product;
 
 @Controller
 public class PageController {
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
+	@Autowired
+	private ProductDAO productDAO;
 
 	@RequestMapping(value= {"/","/home"}, method=RequestMethod.GET)
 	public String goHome(ModelMap model) {
@@ -48,12 +54,26 @@ public class PageController {
 	}
 	
 	@RequestMapping(value= "/show/category/{id}/products", method=RequestMethod.GET)
-	public String showCategoryProducts(ModelMap model, @PathVariable Integer id) {
+	public String showCategoryProducts(ModelMap model, @PathVariable Integer id) 
+		throws CategoryNotFoundException {
 		Category category = categoryDAO.get(id);
+		if (category == null) throw new CategoryNotFoundException();
 		model.addAttribute("title", category.getName());
 		model.addAttribute("categories", categoryDAO.list());
 		model.addAttribute("category", category);
 		model.addAttribute("userClickCategoryProducts", true);
+		return "page";
+	}
+	
+	@RequestMapping(value="/show/{id}/product")
+	public String showSingleProduct(ModelMap model, @PathVariable Integer id) 
+		throws ProductNotFoundException {
+		Product product = productDAO.get(id);
+		if (product == null) throw new ProductNotFoundException();
+		product.setViews(product.getViews() + 1);
+		productDAO.update(product);
+		model.addAttribute("userClickShowProduct", true);
+		model.addAttribute("product", product);
 		return "page";
 	}
 }

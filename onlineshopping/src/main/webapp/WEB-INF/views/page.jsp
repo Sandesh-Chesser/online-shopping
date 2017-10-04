@@ -8,6 +8,7 @@
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <spring:url value="/resources/css" var="css" />
 <spring:url value="/resources/js" var="js" />
+<spring:url value="/resources/images" var="images" />
 <title>Online Shopping - ${title }</title>
 <script>
 	window.menu = "${title }";
@@ -26,6 +27,7 @@
 </head>
 
 <body>
+<div id="wrapper_body">
 	<!-- Navigation -->
 	<%@ include file="./fragments/navbar.jsp" %>
 
@@ -42,6 +44,9 @@
 	<c:if test="${userClickAllProducts == true or userClickCategoryProducts == true}">
 		<%@ include file="listProducts.jsp" %>
 	</c:if>
+	<c:if test="${userClickShowProduct == true }">
+		<%@ include file="singleProduct.jsp" %>
+	</c:if>
 	<!-- Footer -->
 	<%@ include file="./fragments/footer.jsp" %>
 	<!-- Bootstrap core JavaScript -->
@@ -49,6 +54,7 @@
 	<script src="${js}/jquery.dataTables.min.js"></script>
 	<script src="${js}/dataTables.jqueryui.min.js"></script>
 	<script src="${js}/myapp.js"></script>
+</div>
 </body>
 
 </html>
